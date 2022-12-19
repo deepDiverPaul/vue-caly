@@ -1,12 +1,10 @@
 <template>
-  <div class="a-calendar w-full">
-    <div class="vuecaly-header">
-      <div class="a-select-month text-center">
-        <span class="arrow clickable mr-2" @click="prevMonth()">&lt;</span>
-        <span class="month">{{months[month-1]}} {{year}}</span>
-        <span class="arrow clickable ml-2" @click="addMonth()">&gt;</span>
+  <div class="vcly-datepicker">
+      <div class="vcly-monthselector">
+        <div class="arrow clickable mr-2" @click="prevMonth()">&lt;</div>
+        <div class="month">{{months[month-1]}} {{year}}</div>
+        <div class="arrow clickable ml-2" @click="addMonth()"><ChevronRight /></div>
       </div>
-    </div>
     <table class="a-month">
       <tr class="a-toprow">
         <th class="a-days" v-for="(day, index) in days" :key="index">
@@ -29,6 +27,7 @@
 <script setup lang="ts">
 import {padding, calendarize} from "@/plugin/composables/useHelpers";
 import {ref, computed} from "vue";
+import ChevronRight from "@/plugin/components/icons/ChevronRight.vue";
 
 const today = new Date(),
     days = ['Mo','Di','Mi','Do','Fr','Sa','So'],
@@ -104,6 +103,19 @@ const monthView = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+.vcly-datepicker {
+  @apply w-full;
+  .vcly-monthselector {
+    @apply flex justify-center items-center;
+    .month {
+      @apply text-center;
+      width: 8rem;
+    }
+    .arrow {
+      @apply cursor-pointer;
+    }
+  }
+}
 table.a-month {
   width: 100%;
   max-width: 450px;
@@ -131,12 +143,10 @@ table.a-month {
       color: #333;
     }
     &.selectable .ring{
-      @apply bg-blue-800;
-      color: white;
+      @apply bg-blue-800 cursor-pointer text-white;
     }
     &.selectable.selected .ring{
-      @apply bg-amber-600;
-      color: white;
+      @apply bg-amber-600 text-white;
     }
   }
 }

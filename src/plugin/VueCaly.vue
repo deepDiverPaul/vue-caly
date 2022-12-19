@@ -1,10 +1,10 @@
 <template>
   <div class="vcly">
-    <div class="vuecaly-date col-12 col-md-6">
+    <div class="vcly-date">
       <DatePicker v-model="appointment.date" :selectable="dates" @setdate="resetTime()" />
     </div>
-    <div class="vuecaly-time col-12 col-md-6">
-      <div class="vuecaly-header text-center">
+    <div class="vcly-time">
+      <div class="vcly-header text-center">
         {{prettyDate}}
       </div>
       <div class="" v-if="times.length === 0"> Bitte wähle ein Datum aus.</div>
@@ -16,10 +16,6 @@
              @click="setTime(time)">{{time}}</div>
       </div>
     </div>
-    <p>
-      DatePicker: {{appointment.date}}<br>
-      TimePicker: {{appointment.time}}
-    </p>
   </div>
 </template>
 
@@ -37,11 +33,11 @@ import demodata from '../../demo/demodata'
 const availableSlots = useFreeSlots(demodata, 30)
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: VueCalyObject | null): void
+  (e: 'update:modelValue', value: string | null): void
 }>();
 
 interface Props {
-  modelValue: VueCalyObject | null
+  modelValue: string | null
   label?: string
   input?: Ref
 }
@@ -65,12 +61,7 @@ const setTime = (time: string): void => {
   appointment.value.time = time
   const event = new Date(appointment.value.date);
   const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
-  value.value = {
-    date: appointment.value.date,
-    time: appointment.value.time,
-    dateObject: event,
-    string: `${event.toLocaleDateString('de-DE', options)} um ${appointment.value.time} Uhr`
-  }
+  value.value = `${event.toLocaleDateString('de-DE', options)} um ${appointment.value.time} Uhr`
 }
 
 const dates = computed(() => {
@@ -98,7 +89,13 @@ const value = computed({
 
 <style scoped lang="scss">
 .vcly {
-
+  @apply border rounded rounded-2xl p-4 flex flex-col sm:flex-row;
+  &-date {
+    @apply w-full p-4 sm:p-8;
+  }
+  &-time {
+    @apply w-full sm:w-96 p-4 sm:p-8;
+  }
 }
 
 </style>

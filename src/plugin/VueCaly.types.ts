@@ -1,6 +1,6 @@
 export type VueCalyAppointment = {
-    date: null | number
-    time: null | string
+    date: null | number | string
+    time: null | string | number
 }
 
 export type VueCalyPluginOptions = {
@@ -11,11 +11,9 @@ export type VueCalyAvailableDate = {
     transparency?: 'transparent'
     start: {
         dateTime: string
-        timeZone: string
     }
     end: {
         dateTime: string
-        timeZone: string
     }
 }
 

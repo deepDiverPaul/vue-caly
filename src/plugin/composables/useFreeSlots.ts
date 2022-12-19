@@ -1,5 +1,5 @@
 import {padding} from "@/plugin/composables/useHelpers";
-import type {VueCalyAppointment, VueCalyAvailableDate, VueCalySlot} from "@/plugin/VueCaly";
+import type {VueCalyAppointment, VueCalyAvailableDate, VueCalySlot} from "@/plugin/VueCaly.types";
 
 export default (dates:VueCalyAvailableDate[] = [], duration = 30) => {
     const freeSlots: VueCalySlot[] = []
