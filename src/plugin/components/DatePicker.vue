@@ -1,9 +1,9 @@
 <template>
   <div class="vcly-datepicker">
       <div class="vcly-monthselector">
-        <div class="arrow clickable mr-2" @click="prevMonth()">&lt;</div>
+        <div class="arrow clickable mr-2" @click="prevMonth()"><ArrowLeft /></div>
         <div class="month">{{months[month-1]}} {{year}}</div>
-        <div class="arrow clickable ml-2" @click="addMonth()"><ChevronRight /></div>
+        <div class="arrow clickable ml-2" @click="addMonth()"><ArrowRight /></div>
       </div>
     <table class="a-month">
       <tr class="a-toprow">
@@ -27,7 +27,8 @@
 <script setup lang="ts">
 import {padding, calendarize} from "@/plugin/composables/useHelpers";
 import {ref, computed} from "vue";
-import ChevronRight from "@/plugin/components/icons/ChevronRight.vue";
+import ArrowRight from "@/plugin/components/icons/ArrowRight.vue";
+import ArrowLeft from "@/plugin/components/icons/ArrowLeft.vue";
 
 const today = new Date(),
     days = ['Mo','Di','Mi','Do','Fr','Sa','So'],
