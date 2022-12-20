@@ -1,26 +1,32 @@
 <template>
-  <div class="vcly-datepicker">
-      <div class="vcly-monthselector">
-        <div class="arrow clickable mr-2" @click="prevMonth()"><ArrowLeft /></div>
-        <div class="month">{{months[month-1]}} {{year}}</div>
-        <div class="arrow clickable ml-2" @click="addMonth()"><ArrowRight /></div>
-      </div>
-    <table class="a-month">
-      <tr class="a-toprow">
-        <th class="a-days" v-for="(day, index) in days" :key="index">
+  <div class="vcly_dp">
+    <div class="vcly_dp__month">
+      <div class="vcly_dp__month_arrow" @click="prevMonth()"><ArrowLeft /></div>
+      <div class="vcly_dp__month_month" @click="resetPage()">{{months[month-1]}} {{year}}</div>
+      <div class="vcly_dp__month_arrow" @click="addMonth()"><ArrowRight /></div>
+    </div>
+    <div class="vcly_dp__day">
+      <div class="vcly_dp__day_header">
+        <div class="vcly_dp__day_name" v-for="(day, index) in days" :key="index">
           {{day}}
-        </th>
-      </tr>
-      <tr class="a-row" v-for="(row, index) in monthView" :key="index">
-        <td class="a-day"
-            :class="{'invisible': day === 0,'today': isToday(day),'selected': isSelected(day),'selectable': isSelectable(day)}"
+        </div>
+      </div>
+      <div class="vcly_dp__day_row" v-for="(row, index) in monthView" :key="index">
+        <div class="vcly_dp__day_day"
+            :class="{
+          'vcly_dp__day_day--invisible': day === 0,
+          'vcly_dp__day_day--today': !isSelected(day) && isToday(day),
+          'vcly_dp__day_day--selected': isSelected(day) && !isToday(day),
+          'vcly_dp__day_day--selected-today': isSelected(day) && isToday(day),
+          'vcly_dp__day_day--selectable': isSelectable(day)
+        }"
             @click="setDate(day)"
             v-for="(day, dindex) in row"
             :key="dindex">
-          <div class="ring" v-if="day > 0"><div class="number">{{ day }}</div></div>
-        </td>
-      </tr>
-    </table>
+          <div class="vcly_dp__day_number" :class="{'vcly_dp__day_number--empty': day === 0}">{{ day }}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -31,8 +37,8 @@ import ArrowRight from "@/plugin/components/icons/ArrowRight.vue";
 import ArrowLeft from "@/plugin/components/icons/ArrowLeft.vue";
 
 const today = new Date(),
-    days = ['Mo','Di','Mi','Do','Fr','Sa','So'],
-    months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+    days = ['Mo','Tu','We','Th','Fr','Sa','Su'],
+    months = ['January','February','March','April','May','June','July','August','September','October','November','December'],
     todayString = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(),
     thisYear = today.getFullYear();
 
@@ -53,12 +59,19 @@ const emits = defineEmits<{
 
 const props = defineProps<Props>()
 
+const resetPage = (): void => {
+  month.value = today.getMonth()+1
+  year.value = today.getFullYear()
+}
+
 const isToday = (d = 1): boolean => {
   return todayString === year.value + '-' + month.value + '-' + d
 }
 
 const isSelected = (d = 1): boolean => {
   if (day.value === null) return false
+  if (month.value !== today.getMonth()+1) return false
+  if (year.value !== today.getFullYear()) return false
   return year.value + '-' + padding(month.value) + '-' + padding(day.value) === year.value + '-' + padding(month.value) + '-' + padding(d)
 }
 
@@ -100,23 +113,63 @@ const monthView = computed(() => {
   return calendarize(year.value + '-' + padding(month.value) + '-01', 1);
 })
 
+setDate(today.getDate());
 
 </script>
 
 <style lang="scss" scoped>
-.vcly-datepicker {
+.vcly_dp {
   @apply w-full;
-  .vcly-monthselector {
-    @apply flex justify-center items-center;
-    .month {
+  &__month {
+    @apply flex justify-center items-center mb-4;
+    &_month {
       @apply text-center;
       width: 8rem;
     }
-    .arrow {
+    &_arrow {
       @apply cursor-pointer;
     }
   }
+  &__day {
+    @apply flex flex-col gap-2;
+
+    &_row, &_header {
+      @apply grid grid-cols-7 gap-2;
+    }
+
+    &_name {
+      @apply text-center;
+    }
+
+    &_day {
+      @apply aspect-square rounded-full flex justify-center items-center;
+
+      &--selectable {
+        @apply bg-gray-500 cursor-pointer text-white;
+      }
+
+      &--today {
+        @apply bg-red-500 text-white;
+      }
+
+      &--selected-today {
+        @apply ring ring-gray-600 bg-red-500 text-white;
+      }
+
+      &--selected {
+        @apply ring ring-red-600 bg-gray-200 cursor-pointer text-black;
+      }
+    }
+
+    &_number {
+      &--empty {
+        @apply hidden;
+      }
+    }
+  }
 }
+
+
 table.a-month {
   width: 100%;
   max-width: 450px;
@@ -126,28 +179,17 @@ table.a-month {
     text-align: center;
   }
   td.a-day{
-    .ring {
-      width: 90%;
-      margin: 0.25em auto;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      color: #666;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .number{
-        color: inherit;
-      }
+    .wrapper {
+      @apply w-4/5 mx-auto my-1 aspect-square rounded-full flex justify-center items-center;
     }
-    &.today .ring{
-      background-color: #eee;
-      color: #333;
+    &.today .wrapper{
+      @apply ring ring-amber-200;
     }
-    &.selectable .ring{
-      @apply bg-blue-800 cursor-pointer text-white;
+    &.selectable .wrapper{
+      @apply ring ring-blue-200 cursor-pointer;
     }
-    &.selectable.selected .ring{
-      @apply bg-amber-600 text-white;
+    &.selectable.selected .wrapper{
+      @apply ring ring-blue-600 bg-blue-100;
     }
   }
 }

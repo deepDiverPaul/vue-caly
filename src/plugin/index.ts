@@ -1,9 +1,8 @@
 import type {App, Plugin} from 'vue'
 import VueCaly from "./VueCaly.vue";
-import type {VueCalyPluginOptions} from "@/plugin/VueCaly";
 
 const VueCalyPlugin: Plugin = {
-    install: (Vue: App, options: VueCalyPluginOptions) => {
+    install: (Vue: App) => {
         Vue.component("vue-caly", VueCaly);
     }
 };

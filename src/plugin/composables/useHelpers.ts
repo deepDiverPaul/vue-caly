@@ -1,3 +1,4 @@
+// @ts-ignore
 const padding = (text: string | number, width= 2) => String(text).padStart(width, '0')
 
 const calendarize = (target: Date | string = new Date(), offset = 1) => {
