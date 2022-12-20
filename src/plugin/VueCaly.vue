@@ -107,8 +107,6 @@ onMounted(() => {
 
 </script>
 
-<style src="./style.css"></style>
-
 <style scoped lang="scss">
 .vcly {
   @apply border rounded rounded-xl m-4 p-4 flex flex-col sm:flex-row items-center justify-center;
