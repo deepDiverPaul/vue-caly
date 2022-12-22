@@ -35,15 +35,18 @@ import {computed, ref, onMounted} from "vue";
 // import demodata from '../../demo/demodata'
 const demodata = useSlotGenerator([
   {
-    days: [1,3,5],
+    days: [1,2,3,5],
     times: [
         [
-            [5,45],[8,30]
+            [9,30],[11,30]
+        ],
+        [
+            [13,30],[18,30]
         ]
     ],
     start: new Date('2022-12-28'),
     end: new Date('2023-02-02'),
-    gmtOffset: 1
+    gmtOffset: 8
   }
 ])
 
