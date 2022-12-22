@@ -26,31 +26,8 @@ import DatePicker from './components/DatePicker.vue'
 
 import useFreeSlots from "@/plugin/composables/useFreeSlots";
 
-import useSlotGenerator from "@/plugin/composables/useSlotGenerator";
-
-import type {VueCalyAppointment, VueCalyObject} from "@/plugin/VueCaly.d";
-import type {Ref} from "vue";
+import type {VueCalyAppointment, VueCalyObject, VueCalyAvailableDate} from "@/plugin/VueCaly.d";
 import {computed, ref, onMounted} from "vue";
-
-// import demodata from '../../demo/demodata'
-const demodata = useSlotGenerator([
-  {
-    days: [1,2,3,5],
-    times: [
-        [
-            [9,30],[11,30]
-        ],
-        [
-            [13,30],[18,30]
-        ]
-    ],
-    start: new Date('2022-12-24'),
-    end: new Date('2023-02-02'),
-    gmtOffset: 8
-  }
-])
-
-const availableSlots = useFreeSlots(demodata, 30, 30)
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: VueCalyObject | null): void
@@ -58,13 +35,19 @@ const emits = defineEmits<{
 
 interface Props {
   modelValue: VueCalyObject | null
-  label?: string
-  input?: Ref
+  freeDates: VueCalyAvailableDate[]
+  duration: number,
+  gap: number,
+  pause: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
-
+  duration: 30,
+  gap: 30,
+  pause: 15,
 })
+
+const availableSlots = useFreeSlots(props.freeDates, props.duration, props.gap, props.pause)
 
 const appointment = ref<VueCalyAppointment>({
   date: null,
