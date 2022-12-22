@@ -44,7 +44,7 @@ const demodata = useSlotGenerator([
             [13,30],[18,30]
         ]
     ],
-    start: new Date('2022-12-28'),
+    start: new Date('2022-12-24'),
     end: new Date('2023-02-02'),
     gmtOffset: 8
   }
