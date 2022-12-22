@@ -14,6 +14,7 @@ steps:
     image: node
     commands:
       - npx playwright install
+      - npx playwright install-deps
       - yarn test:e2e
   - name: lint
     image: node
