@@ -12,7 +12,7 @@
              v-for="(time, index) in times"
              :class="{'vcly__time_item--selected': appointment.time === time}"
              :key="index"
-             @click="setTime(time)">{{time}}</div>
+             @click="setTime(`${time}`)">{{time}}</div>
       </div>
       <div class="vcly__time_notice">
         your local timezone is used {{localTimezone}}
@@ -47,10 +47,10 @@ const demodata = useSlotGenerator([
   }
 ])
 
-const availableSlots = useFreeSlots(demodata, 30)
+const availableSlots = useFreeSlots(demodata, 30, 30)
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: string | null): void
+  (e: 'update:modelValue', value: VueCalyObject | null): void
 }>();
 
 interface Props {
