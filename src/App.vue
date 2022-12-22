@@ -1,7 +1,7 @@
 <template>
   <div class="w-full max-w-screen-sm mx-auto">
     <div class="text-center p-8 text-2xl">
-      vue-caly
+      🐭 vue-caly
     </div>
     <div class="">
       <vue-caly v-model="date" />
