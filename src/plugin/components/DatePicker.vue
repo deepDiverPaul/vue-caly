@@ -39,21 +39,20 @@ import ArrowLeft from "@/plugin/components/icons/ArrowLeft.vue";
 const today = new Date(),
     days = ['Mo','Tu','We','Th','Fr','Sa','Su'],
     months = ['January','February','March','April','May','June','July','August','September','October','November','December'],
-    todayString = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(),
-    thisYear = today.getFullYear();
+    todayString = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 
-const day = ref<null | number>(null)
+const day = ref<null | string | number>(null)
 const month = ref(today.getMonth()+1)
 const year = ref(today.getFullYear())
 
 interface Props  {
-  modelValue: string | null
+  modelValue: string | number | null
   selectable: (string | null | number)[]
 }
 
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: string | null): void,
+  (e: 'update:modelValue', value: string | number | null): void,
   (e: 'setdate'): void
 }>();
 
@@ -69,10 +68,7 @@ const isToday = (d = 1): boolean => {
 }
 
 const isSelected = (d = 1): boolean => {
-  if (day.value === null) return false
-  if (month.value !== today.getMonth()+1) return false
-  if (year.value !== today.getFullYear()) return false
-  return year.value + '-' + padding(month.value) + '-' + padding(day.value) === year.value + '-' + padding(month.value) + '-' + padding(d)
+  return year.value + '-' + padding(month.value) + '-' + padding(d) === value.value
 }
 
 const isSelectable = (d = 1): boolean => {
@@ -80,7 +76,7 @@ const isSelectable = (d = 1): boolean => {
 }
 
 const setDate = (d: number):void => {
-  if (isSelectable(d) === false) return
+  if (!isSelectable(d)) return
   day.value = d
   value.value = year.value + '-' + padding(month.value) + '-' + padding(d)
   emits('setdate')

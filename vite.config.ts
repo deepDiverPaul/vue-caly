@@ -1,5 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 import { resolve } from 'path'
+import dts from 'vite-plugin-dts'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -7,8 +8,25 @@ import vue from '@vitejs/plugin-vue'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+      dts({
+        // tsConfigFilePath: './tsconfig.app.json',
+        skipDiagnostics: true,
+        // entryRoot: resolve(__dirname, 'src/plugin/index.ts'),
+        // outputDir: resolve(__dirname, 'dist/'),
+        outputDir: 'dist',
+        copyDtsFiles: true,
+        beforeWriteFile: (filePath, content) => {
+          if(filePath.includes('env.d.ts')) return false;
+          if(filePath.includes('shim-vue.d.ts')) return false;
+          return {
+            filePath: filePath.replace('/vue-caly/dist/src/plugin/', '/vue-caly/dist/',),
+            content
+          }
+        }
+      }),
       vue({
-        // customElement: true
+        customElement: false,
+        isProduction: true
       }),
   ],
   resolve: {
@@ -17,6 +35,7 @@ export default defineConfig({
     }
   },
   build: {
+    // minify: false,
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: [
@@ -25,7 +44,7 @@ export default defineConfig({
       name: 'VueCaly',
       // the proper extensions will be added
       fileName: 'vue-caly',
-      formats: ['es', 'cjs']
+      // formats: ['es', 'cjs']
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled

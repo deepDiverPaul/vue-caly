@@ -2,8 +2,25 @@ kind: pipeline
 name: default
 
 steps:
-  - name: test:unit
+  - name: install
     image: node
     commands:
       - yarn install
+  - name: build
+    image: node
+    commands:
+      - yarn build:app
+  - name: test:unit
+    image: node
+    commands:
       - yarn test:unit
+  - name: test:e2e
+    image: node
+    commands:
+      - npx playwright install
+      - npx playwright install-deps
+      - yarn test:e2e
+  - name: lint
+    image: node
+    commands:
+      - yarn lint

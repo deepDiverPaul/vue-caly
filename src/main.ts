@@ -3,10 +3,10 @@ import App from './App.vue'
 
 import "./index.css";
 
-import VueCaly from './plugin'
 
 const app = createApp(App)
 
-app.use(VueCaly)
+// import VueCaly from './plugin'
+// app.use(VueCaly)
 
 app.mount('#app')
