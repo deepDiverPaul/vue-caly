@@ -6,15 +6,17 @@
     <div class="">
       <vue-caly v-model="date" />
     </div>
-    <div class="">
-      Date: {{date?.string}}
+    <div class="mt-6">
+      <pre>
+        {{date}}
+      </pre>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import {ref} from "vue";
-import type {VueCalyObject} from "@/plugin/VueCaly";
+import type {VueCalyObject} from "@/plugin/VueCaly.d";
 import {VueCaly} from '@/plugin'
 
 const date = ref<VueCalyObject | null>(null)
