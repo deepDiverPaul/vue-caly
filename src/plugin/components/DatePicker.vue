@@ -35,13 +35,11 @@ import {padding, calendarize} from "@/plugin/composables/useHelpers";
 import {ref, computed} from "vue";
 import ArrowRight from "@/plugin/components/icons/ArrowRight.vue";
 import ArrowLeft from "@/plugin/components/icons/ArrowLeft.vue";
-import type {VueCalyAppointment} from "@/plugin/VueCaly";
 
 const today = new Date(),
     days = ['Mo','Tu','We','Th','Fr','Sa','Su'],
     months = ['January','February','March','April','May','June','July','August','September','October','November','December'],
-    todayString = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(),
-    thisYear = today.getFullYear();
+    todayString = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 
 const day = ref<null | number>(null)
 const month = ref(today.getMonth()+1)

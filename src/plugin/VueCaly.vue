@@ -28,7 +28,7 @@ import useFreeSlots from "@/plugin/composables/useFreeSlots";
 
 import useSlotGenerator from "@/plugin/composables/useSlotGenerator";
 
-import type {VueCalyAppointment, VueCalyObject} from "@/plugin/VueCaly";
+import type {VueCalyAppointment, VueCalyObject} from "@/plugin/VueCaly.d";
 import type {Ref} from "vue";
 import {computed, ref, onMounted} from "vue";
 
