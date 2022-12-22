@@ -26,11 +26,26 @@ import DatePicker from './components/DatePicker.vue'
 
 import useFreeSlots from "@/plugin/composables/useFreeSlots";
 
-import type {VueCalyAppointment, VueCalyObject} from "@/plugin/VueCaly.types";
-import {computed, Ref, ref, onMounted} from "vue";
+import useSlotGenerator from "@/plugin/composables/useSlotGenerator";
 
-import demodata from '../../demo/demodata'
+import type {VueCalyAppointment, VueCalyObject} from "@/plugin/VueCaly";
+import type {Ref} from "vue";
+import {computed, ref, onMounted} from "vue";
 
+// import demodata from '../../demo/demodata'
+const demodata = useSlotGenerator([
+  {
+    days: [1,3,5],
+    times: [
+        [
+            [5,45],[8,30]
+        ]
+    ],
+    start: new Date('2022-12-28'),
+    end: new Date('2023-02-02'),
+    gmtOffset: 1
+  }
+])
 
 const availableSlots = useFreeSlots(demodata, 30)
 
@@ -107,7 +122,7 @@ onMounted(() => {
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .vcly {
   @apply border rounded rounded-xl m-4 p-4 flex flex-col sm:flex-row items-center justify-center;
   &:before {

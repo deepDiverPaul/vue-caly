@@ -1,7 +1,7 @@
 import {padding} from "@/plugin/composables/useHelpers";
-import type {VueCalyAppointment, VueCalyAvailableDate, VueCalySlot} from "@/plugin/VueCaly.types";
+import type {VueCalyAppointment, VueCalyAvailableDate, VueCalySlot} from "@/plugin/VueCaly";
 
-export default (dates:VueCalyAvailableDate[] = [], duration = 30) => {
+export default (dates:VueCalyAvailableDate[] = [], duration = 30, gap= 30, pause= 15) => {
     const freeSlots: VueCalySlot[] = []
     const ret: VueCalyAppointment[] = []
 
@@ -17,7 +17,8 @@ export default (dates:VueCalyAvailableDate[] = [], duration = 30) => {
         ]
         busy.forEach(b => {
             const bStart = Date.parse(b.start.dateTime)
-            const bEnd = Date.parse(b.end.dateTime)
+            const bEnd = Date.parse(b.end.dateTime) + pause*60000
+
 
             temp.forEach(t => {
                 if (bStart >= t.start && bEnd <= t.end){ // inmitten von Slot
@@ -57,7 +58,7 @@ export default (dates:VueCalyAvailableDate[] = [], duration = 30) => {
                     time: padding(date.getHours()) + ':' + padding(date.getMinutes())
                 }
                 ret.push(sl)
-                start = start + 30*60000
+                start = start + gap*60000
                 end = start + duration*60000
             }else{
                 open = false
