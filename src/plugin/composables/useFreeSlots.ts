@@ -19,8 +19,15 @@ export default (dates:VueCalyAvailableDate[] = [], duration = 30, gap= 30, pause
             const bStart = Date.parse(b.start.dateTime)
             const bEnd = Date.parse(b.end.dateTime) + pause*60000
 
+            temp.forEach((t, ti) => {
+                if (bStart <= t.start && bEnd >= t.end) {
+                    temp.splice(ti, 1)
+                    return
+                }
+            })
 
-            temp.forEach(t => {
+
+            temp.forEach((t) => {
                 if (bStart >= t.start && bEnd <= t.end){ // inmitten von Slot
                     temp.push({
                         start: bEnd,
@@ -63,7 +70,7 @@ export default (dates:VueCalyAvailableDate[] = [], duration = 30, gap= 30, pause
             }else{
                 open = false
             }
-        } while (open === true);
+        } while (open);
     })
     return ret
 }
