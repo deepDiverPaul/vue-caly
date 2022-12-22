@@ -14,7 +14,8 @@
 
 <script setup lang="ts">
 import {ref} from "vue";
-import type {VueCalyObject} from "@/plugin/VueCaly.types";
+import type {VueCalyObject} from "@/plugin/VueCaly";
+import {VueCaly} from '@/plugin'
 
 const date = ref<VueCalyObject | null>(null)
 

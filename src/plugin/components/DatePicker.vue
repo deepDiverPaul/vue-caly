@@ -35,6 +35,7 @@ import {padding, calendarize} from "@/plugin/composables/useHelpers";
 import {ref, computed} from "vue";
 import ArrowRight from "@/plugin/components/icons/ArrowRight.vue";
 import ArrowLeft from "@/plugin/components/icons/ArrowLeft.vue";
+import type {VueCalyAppointment} from "@/plugin/VueCaly";
 
 const today = new Date(),
     days = ['Mo','Tu','We','Th','Fr','Sa','Su'],
@@ -47,13 +48,13 @@ const month = ref(today.getMonth()+1)
 const year = ref(today.getFullYear())
 
 interface Props  {
-  modelValue: string | null
+  modelValue: string | number | null
   selectable: (string | null | number)[]
 }
 
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: string | null): void,
+  (e: 'update:modelValue', value: string | number | null): void,
   (e: 'setdate'): void
 }>();
 
