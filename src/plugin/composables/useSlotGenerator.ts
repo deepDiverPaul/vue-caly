@@ -1,4 +1,4 @@
-import type {VueCalyAvailableDate} from "@/plugin/VueCaly.types";
+import type {VueCalyAvailableDate} from "@/plugin/VueCaly";
 
 type VueCalySlotGeneratorTime = [[number,number],[number,number]]
 
