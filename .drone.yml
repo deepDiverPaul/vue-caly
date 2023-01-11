@@ -22,18 +22,18 @@ steps:
     image: node
     commands:
       - yarn lint
-  - name: publish_release
-    image: plugins/github-release
-    settings:
-      api_key:
-        from_secret: github_token
-      files: dist/*
-    when:
-      event: tag
-  - name: publish_npm
-    image: plugins/npm
-    when:
-      event: tag
-    settings:
-      token:
-        from_secret: npm_token
+#  - name: publish_release
+#    image: plugins/github-release
+#    settings:
+#      api_key:
+#        from_secret: github_token
+#      files: dist/*
+#    when:
+#      event: tag
+#  - name: publish_npm
+#    image: plugins/npm
+#    when:
+#      event: tag
+#    settings:
+#      token:
+#        from_secret: npm_token
